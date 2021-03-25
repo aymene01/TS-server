@@ -6,6 +6,7 @@ import { PrismaClient } from '@prisma/client'
 
 const server = async () => {
     try {
+        /* initialaze the express app */
         const app = express()
 
         /* Middlewares*/
@@ -14,6 +15,7 @@ const server = async () => {
         app.use(express.urlencoded({extended: true}))
         app.use('/api', routes)
 
+        /* connection to the db */
         const prisma = new PrismaClient()
         await prisma.$connect()
         console.log('succefully connected to the db !')
