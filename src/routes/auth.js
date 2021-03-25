@@ -11,7 +11,7 @@ api.post('/signup', async (req, res) => {
     const { error } = validate(req.body)
     if(error) return res.status(400).send(error.details[0].message)
 
-    const { firstname, lastname, email, password, confirmPassword } = req.body
+    const { firstname, lastname, email, password, confirmPassword, job, description } = req.body
     if(password !== confirmPassword) return res.status(400).send('password not equal')
 
     try {
@@ -21,7 +21,9 @@ api.post('/signup', async (req, res) => {
                 firstname,
                 lastname,
                 email,
-                password : encryptedPassword(password)
+                password : encryptedPassword(password),
+                job,
+                description
             }
         })
         const payload = { email }
