@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import routes from './routes'
 import { PrismaClient } from '@prisma/client'
 
+
 const server = async () => {
     try {
         /* initialaze the express app */
@@ -22,7 +23,7 @@ const server = async () => {
 
         dotenv.config()
 
-        const port = process.env.PORT || 3000
+        const port = parseInt(process.env.PORT || 3000, 10)
 
         app.listen(port, () => console.log(`app is running on port ${port}`))
 

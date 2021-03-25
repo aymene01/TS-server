@@ -7,7 +7,7 @@ api.post('/signin', (req, res) => {
 })
 
 api.post('/signup', (req, res) => {
-    res.json({hello : "world"})
+    res.send('hello world')
 })
 
 api.post('/forgot-password', (req, res) => {
