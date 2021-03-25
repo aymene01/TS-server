@@ -10,5 +10,10 @@ api.post('/signup', (req, res) => {
     res.json({hello : "world"})
 })
 
+api.post('/forgot-password', (req, res) => {
+    res.json({hello : "world"})
+})
+
+
 export default api
 
