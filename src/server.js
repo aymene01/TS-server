@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import routes from './routes'
+import { PrismaClient } from '@prisma/client'
 
 const server = async () => {
     try {
@@ -12,6 +13,10 @@ const server = async () => {
         app.use(express.json())
         app.use(express.urlencoded({extended: true}))
         app.use('/api', routes)
+
+        const prisma = new PrismaClient()
+        await prisma.$connect()
+        console.log('succefully connected to the db !')
 
         dotenv.config()
 
