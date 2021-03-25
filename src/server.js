@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import routes from './routes'
 
 const server = async () => {
     try {
@@ -10,6 +11,7 @@ const server = async () => {
         app.use(cors())
         app.use(express.json())
         app.use(express.urlencoded({extended: true}))
+        app.use('/api', routes)
 
         dotenv.config()
 
