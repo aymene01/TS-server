@@ -1,9 +1,10 @@
 import { Router } from 'express'
 import { PrismaClient } from '@prisma/client'
 import { validate } from '../utils/validate'
-import { encryptedPassword } from '../utils/password'
+import { encryptedPassword } from '../utils/password.js'
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
+import passport from 'passport'
 
 const api = Router()
 
@@ -11,7 +12,7 @@ api.post('/signup', async (req, res) => {
     const { error } = validate(req.body)
     if(error) return res.status(400).send(error.details[0].message)
 
-    const { firstname, lastname, email, password, confirmPassword, job, description } = req.body
+    const { firstname, lastname, email, password, confirmPassword, Description, job } = req.body
     if(password !== confirmPassword) return res.status(400).send('password not equal')
 
     try {
@@ -22,8 +23,8 @@ api.post('/signup', async (req, res) => {
                 lastname,
                 email,
                 password : encryptedPassword(password),
-                job,
-                description
+                Description,
+                job
             }
         })
         const payload = { email }
@@ -37,7 +38,20 @@ api.post('/signup', async (req, res) => {
 })
 
 api.post('/signin', (req, res) => {
-    res.send('hello world')
+    const login = passport.authenticate('local', {session: false}, (err, user) => {
+        if(err) return res.status(400).json({error: err})
+
+        const { email } = user
+        const payload = { email }
+        dotenv.config()
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET)
+        res.json({data: {
+            user,
+            token
+        }})
+    })
+    login(req, res)
 })
 
 api.post('/forgot-password', (req, res) => {

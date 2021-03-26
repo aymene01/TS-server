@@ -7,7 +7,7 @@ export const validate = (data) => {
         email: Joi.string().email().lowercase().max(255).required(),
         password: Joi.string().min(6).required(),
         confirmPassword : Joi.string().min(6).required(),
-        description: Joi.string().max(140),
+        Description: Joi.string().max(140),
         job: Joi.string().min(2)
     })
     return schema.validate(data)
